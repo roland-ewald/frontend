@@ -36,14 +36,6 @@ trait IndexController extends Controller with Index with Logging with Paging wit
     }
   }
 
-  def renderTrailsJson(path: String) = renderTrails(path)
-  def renderTrails(path: String) = DogpileAction { implicit request =>
-    index(Edition(request), path, extractPage(request)) map {
-      case Left(model) => renderTrailsFragment(model)
-      case Right(notFound) => notFound
-    }
-  }
-
   private def renderFaciaFront(model: IndexPage)(implicit request: RequestHeader) = {
     Cached(model.page){
       if (request.isJson)
@@ -55,10 +47,6 @@ trait IndexController extends Controller with Index with Logging with Paging wit
     }
   }
 
-  private def renderTrailsFragment(model: IndexPage)(implicit request: RequestHeader) = {
-    val response = () => views.html.fragments.trailblocks.headline(model.trails, numItemsVisible = model.trails.size)
-    renderFormat(response, response, model.page)
-  }
 }
 
 object IndexController extends IndexController
