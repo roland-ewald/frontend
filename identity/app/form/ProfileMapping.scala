@@ -10,7 +10,8 @@ object ProfileMapping extends UserFormMapping[ProfileFormData] {
     "location" -> textField,
     "aboutMe" -> textArea,
     "interests" -> textField,
-    "webPage" -> idUrl
+    "webPage" -> idUrl,
+    "avatar" -> textField
   )(ProfileFormData.apply)(ProfileFormData.unapply)
 
   protected def fromUser(user: User) = ProfileFormData(user)
@@ -19,7 +20,8 @@ object ProfileMapping extends UserFormMapping[ProfileFormData] {
     "publicFields.location" -> "location",
     "publicFields.aboutMe" -> "aboutMe",
     "publicFields.interests" -> "interests",
-    "publicFields.webPage" -> "webPage"
+    "publicFields.webPage" -> "webPage",
+    "publicFields.avatar" -> "avatar"
   )
 }
 
@@ -31,7 +33,8 @@ case class ProfileFormData(
   location: String,
   aboutMe: String,
   interests: String,
-  webPage: String
+  webPage: String,
+  avatar: String
 ) extends UserFormData{
 
   def toUserUpdate(currentUser: User): UserUpdate = UserUpdate(
@@ -51,5 +54,6 @@ object ProfileFormData {
     aboutMe = user.publicFields.aboutMe getOrElse "",
     interests = user.publicFields.interests getOrElse "",
     webPage = user.publicFields.webPage getOrElse ""
+    // , avatar = user.publicFields.avatar getOrElse "" // I know this is all wrong but I don't know what the right way is...
   )
 }
